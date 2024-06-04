@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: photobooth-be
+  profiles:
+    active: s3, mail

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Download</title>
+</head>
+<body>
+<h1>Image Download</h1>
+<button id="downloadButton">Download Image</button>
+
+<script>
+    document.getElementById('downloadButton').addEventListener('click', function() {
+        // 이미지의 URL
+        var imageUrl = "${s3ImageUrl}"; // Thymeleaf의 문법으로 서버에서 전달된 이미지 URL을 사용합니다.
+
+        // 새로운 <a> 엘리먼트를 생성하여 이미지를 다운로드합니다.
+        var a = document.createElement('a');
+        a.href = imageUrl;
+        a.download = 'img.jpg'; // 다운로드될 파일 이름 설정
+
+        // <a> 엘리먼트를 클릭하여 이미지를 다운로드합니다.
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+</script>
+</body>
+</html>
