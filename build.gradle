@@ -7,15 +7,15 @@ plugins {
 group = 'com.joy'
 version = '0.0.1-SNAPSHOT'
 
-// Java 17을 대상으로 설정
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
-}
+//// Java 17을 대상으로 설정
 //java {
-//	sourceCompatibility = '17'
+//	toolchain {
+//		languageVersion = JavaLanguageVersion.of(17)
+//	}
 //}
+java {
+	sourceCompatibility = '17'
+}
 
 configurations {
 	compileOnly {
