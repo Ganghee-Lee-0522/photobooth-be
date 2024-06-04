@@ -45,6 +45,9 @@ dependencies {
 	implementation 'com.amazonaws:aws-java-sdk-s3'
 	// main
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	// JAXB API 의존성 추가
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+	implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
 }
 
 task copyYML(type: Copy){
