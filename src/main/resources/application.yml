@@ -3,3 +3,7 @@ spring:
     name: photobooth-be
   profiles:
     active: s3, mail
+
+logging:
+  level:
+    org.apache.coyote.http11.Http11Processor: DEBUG
