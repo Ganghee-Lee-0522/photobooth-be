@@ -9,30 +9,28 @@
 
 <script>
     document.getElementById('downloadButton').addEventListener('click', function() {
-        // 서버 API 엔드포인트
-        var apiUrl = "http://joljol.site:8080/api/downloadImage{$s3ImageUrl}";
+        var imageUrl = "${s3ImageUrl}"; // 서버에서 이미지 URL을 제공받습니다.
+        var apiUrl = "http://joljol.site:8080/api/downloadImage/" + encodeURIComponent(imageUrl); // encodeURIComponent()를 사용하여 URL을 인코딩합니다.
 
-        // 서버 API를 호출하여 이미지 파일을 받아옵니다.
         fetch(apiUrl)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Failed to fetch image from server');
                 }
                 return response.blob();
             })
             .then(blob => {
-                // Blob을 파일로 변환하여 다운로드합니다.
                 var downloadLink = document.createElement('a');
                 downloadLink.href = window.URL.createObjectURL(blob);
-                downloadLink.download = 'img.jpg'; // 다운로드될 파일 이름을 지정합니다.
+                downloadLink.download = 'downloaded_image.jpg'; // 다운로드될 파일 이름을 설정합니다. 원하는 이름으로 변경 가능합니다.
 
-                // 다운로드 링크를 클릭하여 이미지를 다운로드합니다.
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
             })
             .catch(error => {
-                console.error('There has been a problem with your fetch operation:', error);
+                console.error('An error occurred during image download:', error.message);
+                alert('Failed to download image. Please try again later.'); // 사용자에게 오류 메시지를 표시합니다.
             });
     });
 </script>
