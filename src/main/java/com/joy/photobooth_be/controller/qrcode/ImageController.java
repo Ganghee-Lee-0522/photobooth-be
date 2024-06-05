@@ -23,7 +23,7 @@ public class ImageController {
     @GetMapping("/{imgUrl}")
     public String index(@PathVariable String imgUrl, Model model) {
         log.info("이미지 다운로드 페이지 접속 요청 들어옴");
-        String s3ImageUrl = "https://joljol-photobooth-s3.s3.ap-northeast-2.amazonaws.com/" + imgUrl;
+        String s3ImageUrl = imgUrl;
         model.addAttribute("s3ImageUrl", s3ImageUrl);
         return "index";
     }
@@ -32,7 +32,7 @@ public class ImageController {
     public ResponseEntity<byte[]> downloadImage(@PathVariable String s3ImageUrl) {
         try {
             // S3에서 이미지를 다운로드합니다.
-            URL url = new URL(s3ImageUrl);
+            URL url = new URL("https://joljol-photobooth-s3.s3.ap-northeast-2.amazonaws.com/" + s3ImageUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();

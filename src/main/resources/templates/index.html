@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Image Download</title>
-</head>
-<body>
-<h1>Image Download</h1>
-<button id="downloadButton">Download Image</button>
-
 <script>
     document.getElementById('downloadButton').addEventListener('click', function() {
         var imageUrl = "${s3ImageUrl}"; // 서버에서 이미지 URL을 제공받습니다.
+
+        // 이미지 URL을 콘솔에 출력합니다.
+        console.log('Image URL:', imageUrl);
+
+        // 이미지 URL이 유효한지 확인합니다.
+        if (!imageUrl) {
+            console.error('Failed to get image URL from the server');
+            alert('Failed to get image URL from the server. Please try again later.');
+            return;
+        }
+
         var apiUrl = "http://joljol.site:8080/api/downloadImage/" + encodeURIComponent(imageUrl); // encodeURIComponent()를 사용하여 URL을 인코딩합니다.
 
         fetch(apiUrl)
@@ -34,5 +36,3 @@
             });
     });
 </script>
-</body>
-</html>
