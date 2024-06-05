@@ -1,7 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Download</title>
+</head>
+<body>
+<h1>Image Download</h1>
+<button id="downloadButton">Download Image</button>
+<script th:inline="javascript">
+    /* 타임리프 템플릿 내에서 JavaScript 코드 사용 */
+    var imageUrl = [[${s3ImageUrl}]];
+</script>
+
 <script>
     document.getElementById('downloadButton').addEventListener('click', function() {
-        var imageUrl = "${s3ImageUrl}"; // 서버에서 이미지 URL을 제공받습니다.
-
         // 이미지 URL을 콘솔에 출력합니다.
         console.log('Image URL:', imageUrl);
 
@@ -36,3 +47,6 @@
             });
     });
 </script>
+
+</body>
+</html>
