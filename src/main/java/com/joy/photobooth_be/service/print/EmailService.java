@@ -24,8 +24,10 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final String printerEmail = "joy.joljol@print.epsonconnect.com";
-    private final int targetWidth = 1181; // 10cm * 118.1 dots per inch (300 DPI)
-    private final int targetHeight = 1772; // 15cm * 118.1 dots per inch (300 DPI)
+    private final double inchesToCentimeters = 2.54; // 1 inch = 2.54 centimeters
+    private final int targetWidthCm = 10; // 10 centimeters
+    private final int targetHeightCm = 15; // 15 centimeters
+    private final int dpi = 300; // DPI (dots per inch)
 
     public void sendMailWithRepeatedImages(MultipartFile image, int quantity) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -41,7 +43,7 @@ public class EmailService {
             // 동일한 이미지를 지정된 수량만큼 MimeMessage에 첨부
             for (int i = 0; i < quantity; i++) {
                 String imageName = "joljol" + i + image.getOriginalFilename(); // 이미지 파일 이름
-                byte[] resizedImageBytes = resizeImage(image.getBytes(), targetWidth, targetHeight); // 이미지 크기 조정
+                byte[] resizedImageBytes = resizeImage(image.getBytes(), targetWidthCm, targetHeightCm); // 이미지 크기 조정
 
                 // 이미지 첨부
                 ByteArrayDataSource dataSource = new ByteArrayDataSource(resizedImageBytes, "image/jpeg");
@@ -56,13 +58,20 @@ public class EmailService {
         }
     }
 
-    private byte[] resizeImage(byte[] originalImageBytes, int targetWidth, int targetHeight) throws IOException {
+    private byte[] resizeImage(byte[] originalImageBytes, int targetWidthCm, int targetHeightCm) throws IOException {
         ByteArrayInputStream bais = new ByteArrayInputStream(originalImageBytes);
         BufferedImage originalImage = ImageIO.read(bais);
 
+        // 이미지 크기를 픽셀로 변환
+        int targetWidth = (int) (targetWidthCm * dpi / inchesToCentimeters);
+        int targetHeight = (int) (targetHeightCm * dpi / inchesToCentimeters);
+
+        // 이미지 크기 조정
         Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT);
         BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-        outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+        Graphics2D g2d = outputImage.createGraphics();
+        g2d.drawImage(resultingImage, 0, 0, null);
+        g2d.dispose();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(outputImage, "jpg", baos);
