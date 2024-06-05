@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Image Download</title>
+    <title>Check Your Img!</title>
 </head>
 <body>
-<h1>Image Download</h1>
 <button id="downloadButton">Download Image</button>
 <script th:inline="javascript">
     /* 타임리프 템플릿 내에서 JavaScript 코드 사용 */
-    var imageUrl = [[${s3ImageUrl}]];
+    var imageUrl = /*[[${s3ImageUrl}]]*/'a34ff0b0-be2d-4b30-b5cc-7933272ea1ab2024-06-05T10:38:57.204799153';
 </script>
 
 <script>
@@ -24,6 +23,8 @@
         }
 
         var apiUrl = "http://joljol.site:8080/api/downloadImage/" + encodeURIComponent(imageUrl); // encodeURIComponent()를 사용하여 URL을 인코딩합니다.
+
+        console.log('\n\nImage URL:', apiUrl);
 
         fetch(apiUrl)
             .then(response => {
