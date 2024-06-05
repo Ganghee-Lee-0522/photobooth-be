@@ -47,7 +47,6 @@ public class S3Service {
 
         // 얻은 fileName으로, 타임리프 페이지 접속 URL을 생성한다
         String downloadUrl = "http://joljol.site:8080/" + fileName;
-//        String downloadUrl = "http://joljol.site/" + fileName;
         log.info("이미지 다운로드 경로 생성 -> {}", downloadUrl);
 
         // 이미지 다운로드 URL로 QR코드를 생성한다
@@ -55,7 +54,7 @@ public class S3Service {
             int width = 50;
             int height = 50;
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix bitMatrix = qrCodeWriter.encode(s3Url, BarcodeFormat.QR_CODE, width, height);
+            BitMatrix bitMatrix = qrCodeWriter.encode(downloadUrl, BarcodeFormat.QR_CODE, width, height);
 
             ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
             MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
